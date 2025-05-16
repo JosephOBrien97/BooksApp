@@ -1,0 +1,18 @@
+<form [formGroup]="bookForm" (ngSubmit)="onSubmit()" class="form-container">
+  <div class="mb-3">
+    <label for="title" class="form-label">Titel</label>
+    <input id="title" class="form-control" formControlName="title" />
+  </div>
+
+  <div class="mb-3">
+    <label for="author" class="form-label">Författare</label>
+    <input id="author" class="form-control" formControlName="author" />
+  </div>
+
+  <div class="mb-3">
+    <label for="publishedDate" class="form-label">Publiceringsdatum</label>
+    <input id="publishedDate" type="date" class="form-control" formControlName="publishedDate" />
+  </div>
+
+  <button type="submit" class="btn btn-success">Spara</button>
+</form>
