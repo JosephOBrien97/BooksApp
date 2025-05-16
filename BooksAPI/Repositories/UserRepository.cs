@@ -24,17 +24,11 @@ namespace BooksAPI.Repositories
                 .SingleOrDefaultAsync(u => u.Username.ToLower() == username.ToLower());
         }
 
-        public async Task<AppUser?> GetUserByEmailAsync(string email)
-        {
-            return await _context.Users
-                .SingleOrDefaultAsync(u => u.Email.ToLower() == email.ToLower());
-        }
 
-        public async Task<bool> UserExistsAsync(string username, string email)
+        public async Task<bool> UserExistsAsync(string username)
         {
             return await _context.Users.AnyAsync(u => 
-                u.Username.ToLower() == username.ToLower() || 
-                u.Email.ToLower() == email.ToLower());
+                u.Username.ToLower() == username.ToLower());
         }
 
         public async Task<bool> AddUserAsync(AppUser user)

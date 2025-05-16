@@ -24,10 +24,6 @@ namespace BooksAPI.Data
                 .HasIndex(u => u.Username)
                 .IsUnique();
 
-            modelBuilder.Entity<AppUser>()
-                .HasIndex(u => u.Email)
-                .IsUnique();
-
             // Configure Book entity
             modelBuilder.Entity<Book>()
                 .HasOne(b => b.User)

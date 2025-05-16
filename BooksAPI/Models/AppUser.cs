@@ -11,10 +11,8 @@ namespace BooksAPI.Models
         public string Username { get; set; } = string.Empty;
 
         [Required]
-        [EmailAddress]
-        public string Email { get; set; } = string.Empty;
-
-        public string PasswordHash { get; set; }
+        [StringLength(75, MinimumLength = 5)]
+        public string PasswordHash { get; set; } = string.Empty;
         public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;

@@ -7,33 +7,32 @@ using BooksAPI.Services.Interfaces;
 
 namespace BooksAPI.Services
 {
-    public class JwtSerivce : IJwtService
+    public class JwtService : IJwtService
     {
         private readonly IConfiguration _config;
-        public JwtSerivce(IConfiguration config)
+        public JwtService(IConfiguration config)
         {
-            //_key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["Token:Key"]));
             _config = config;
         }
         public string GenerateToken(AppUser user)
         {
             var claims = new List<Claim>
             {
-                //new Claim(JwtRegisteredClaimNames.Sub, user.Username),
-                //new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(JwtRegisteredClaimNames.Sub, user.Username),
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                //new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                //new Claim(ClaimTypes.Name, user.Username)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
-                _config.GetSection("AppSettings:Token").Value!));
+                _config.GetSection("AppSettings:SecretKey").Value!));
             
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.Now.AddDays(1),
+                Expires = DateTime.Now.AddHours(double.Parse(_config.GetSection("JwtSettings:ExpirationInHours").Value!)),
                 SigningCredentials = creds
             };
 

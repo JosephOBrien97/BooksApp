@@ -22,10 +22,10 @@ builder.Services.AddDbContext<BookAppDb>(options =>
 builder.Services.AddScoped<IBookRepository, BookRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IQuoteRepository, QuoteRepository>();
-builder.Services.AddScoped<IJwtService, JwtSerivce>();
+builder.Services.AddScoped<IJwtService, JwtService>();
 
 var jwtSettings = builder.Configuration.GetSection("JwtSettings");
-var key = Encoding.ASCII.GetBytes(jwtSettings["Secret"]);
+var key = Encoding.ASCII.GetBytes(jwtSettings["SecretKey"]);
 
 builder.Services.AddAuthentication(options =>
 {

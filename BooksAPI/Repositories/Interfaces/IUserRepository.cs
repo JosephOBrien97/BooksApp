@@ -6,8 +6,7 @@ namespace BooksAPI.Repositories.Interfaces
     {
         Task<AppUser?> GetUserByIdAsync(int id);
         Task<AppUser?> GetUserByUsernameAsync(string username);
-        Task<AppUser?> GetUserByEmailAsync(string email);
-        Task<bool> UserExistsAsync(string username, string email);
+        Task<bool> UserExistsAsync(string username);
         Task<bool> AddUserAsync(AppUser user);
         Task<bool> UpdateUserAsync(AppUser user);
         Task<bool> DeleteUserAsync(int id);
