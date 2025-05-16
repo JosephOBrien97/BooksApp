@@ -1,0 +1,13 @@
+<div class="container mt-4">
+  <h2>Books</h2>
+  <a class="btn btn-primary mb-3" routerLink="/books/new">Add New Book</a>
+  <div *ngFor="let book of books" class="card mb-2">
+    <div class="card-body">
+      <h5 class="card-title">{{ book.title }}</h5>
+      <p class="card-text">Author: {{ book.author }}</p>
+      <p class="card-text">Published: {{ book.publishedDate | date }}</p>
+      <a [routerLink]="['/books', book.id]" class="btn btn-secondary btn-sm">Details</a>
+      <a [routerLink]="['/books', book.id, 'edit']" class="btn btn-warning btn-sm">Edit</a>
+    </div>
+  </div>
+</div>

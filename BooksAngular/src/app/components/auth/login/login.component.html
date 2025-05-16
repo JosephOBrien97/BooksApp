@@ -1,0 +1,15 @@
+<div class="card p-4 shadow-sm">
+  <h3>Logga in</h3>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="username">Användarnamn</label>
+      <input type="text" id="username" formControlName="username" class="form-control" />
+    </div>
+    <div class="mb-3">
+      <label for="password">Lösenord</label>
+      <input type="password" id="password" formControlName="password" class="form-control" />
+    </div>
+    <button class="btn btn-primary" type="submit">Logga in</button>
+    <div class="text-danger mt-2" *ngIf="errorMessage">{{ errorMessage }}</div>
+  </form>
+</div>

@@ -1,0 +1,6 @@
+<div *ngIf="book" class="container mt-4">
+  <h2>{{ book.title }}</h2>
+  <p><strong>Author:</strong> {{ book.author }}</p>
+  <p><strong>Published:</strong> {{ book.publishedDate | date }}</p>
+  <a routerLink="/books" class="btn btn-outline-secondary">Back</a>
+</div>

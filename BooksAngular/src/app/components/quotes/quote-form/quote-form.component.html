@@ -1,0 +1,10 @@
+<div class="container mt-4">
+  <h2>Add a Quote</h2>
+  <form (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+      <label for="quote" class="form-label">Quote</label>
+      <input type="text" id="quote" [(ngModel)]="quote.text" name="text" class="form-control" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Quote</button>
+  </form>
+</div>

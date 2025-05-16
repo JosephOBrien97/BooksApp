@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from '../../services/book.service';
+// Fix 1: Correct the import path for BookService
+import { BookService } from '../../../services/book.service';
+import { Book } from '../../../models/book.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Book } from '../../models/book.model';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-book-form',
@@ -31,7 +33,8 @@ export class BookFormComponent implements OnInit {
     if (id) {
       this.isEdit = true;
       this.bookId = +id;
-      this.bookService.getBookById(this.bookId).subscribe(book => {
+      // Fix 3: Explicitly type the 'book' parameter
+      this.bookService.getBook(this.bookId).subscribe((book: Book) => {
         this.bookForm.patchValue(book);
       });
     }
@@ -43,7 +46,7 @@ export class BookFormComponent implements OnInit {
       book.id = this.bookId;
       this.bookService.updateBook(book).subscribe(() => this.router.navigate(['/books']));
     } else {
-      this.bookService.createBook(book).subscribe(() => this.router.navigate(['/books']));
+      this.bookService.addBook(book).subscribe(() => this.router.navigate(['/books']));
     }
   }
 }

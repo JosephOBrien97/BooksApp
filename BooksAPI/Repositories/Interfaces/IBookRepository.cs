@@ -1,6 +1,6 @@
 ﻿using BooksAPI.Models;
 
-namespace BooksAPI.Data.Repositories
+namespace BooksAPI.Repositories.Interfaces
 {
     public interface IBookRepository
     {

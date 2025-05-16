@@ -1,6 +1,6 @@
 ﻿using BooksAPI.Models;
 
-namespace BooksAPI.Services
+namespace BooksAPI.Services.Interfaces
 {
     public interface IJwtService
     {

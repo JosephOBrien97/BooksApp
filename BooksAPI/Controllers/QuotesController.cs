@@ -1,11 +1,11 @@
-﻿using BooksAPI.Data.Repositories;
-using BooksAPI.Models.DTOs;
+﻿using BooksAPI.Models.DTOs;
 using BooksAPI.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
+using BooksAPI.Repositories.Interfaces;
 
 namespace BooksAPI.Controllers
 {

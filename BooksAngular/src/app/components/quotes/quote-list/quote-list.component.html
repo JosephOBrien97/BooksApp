@@ -1,0 +1,9 @@
+<h4>Mina Favoritcitat</h4>
+<ul class="list-group mb-3">
+  <li *ngFor="let quote of quoteService.getQuotes(); let i = index" class="list-group-item d-flex justify-content-between align-items-center">
+    {{ quote }}
+    <button class="btn btn-sm btn-outline-danger" (click)="removeQuote(i)">
+      <i class="fas fa-trash"></i>
+    </button>
+  </li>
+</ul>

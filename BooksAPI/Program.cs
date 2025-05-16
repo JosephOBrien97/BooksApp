@@ -2,11 +2,13 @@
 using System.Text;
 using Microsoft.EntityFrameworkCore;
 using BooksAPI.Data;
-using BooksAPI.Data.Repositories;
 using BooksAPI.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using BooksAPI.Services.Interfaces;
+using BooksAPI.Repositories;
+using BooksAPI.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,8 +1,9 @@
 ﻿using BooksAPI.Data;
 using BooksAPI.Models;
+using BooksAPI.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace BooksAPI.Data.Repositories
+namespace BooksAPI.Repositories
 {
     public class BookRepository : IBookRepository
     {

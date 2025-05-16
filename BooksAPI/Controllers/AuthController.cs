@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using BooksAPI.Data.Repositories;
-using BooksAPI.Services;
 using BooksAPI.Models.DTOs;
 using BooksAPI.Models;
+using BooksAPI.Services.Interfaces;
+using BooksAPI.Repositories.Interfaces;
 
 namespace BooksAPI.Controllers
 {

@@ -7,10 +7,4 @@
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\booksapp.client\browser\</BuildOutputFolder>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="src\app\components\auth\" />
-    <Folder Include="src\app\components\layout\" />
-    <Folder Include="src\app\components\shared\" />
-    <Folder Include="src\app\components\quotes\" />
-  </ItemGroup>
 </Project>

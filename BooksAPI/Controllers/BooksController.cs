@@ -7,11 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using BooksAPI.Data;
 using BooksAPI.Models.DTOs;
-using BooksAPI.Data.Repositories;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using BooksAPI.Models;
 using System.Security.Claims;
+using BooksAPI.Repositories.Interfaces;
 
 namespace BooksAPI.Controllers
 {
