@@ -1,0 +1,7 @@
+<div *ngIf="book" class="container mt-4 text-center">
+  <h2 class="text-danger">Boken har raderats</h2>
+  <p><strong>Titel:</strong> {{ book.title }}</p>
+  <p><strong>Författare:</strong> {{ book.author }}</p>
+  <p><strong>Publicerad:</strong> {{ book.publicationDate | date }}</p>
+  <a routerLink="/books" class="btn btn-outline-secondary mt-3">Tillbaka till böcker</a>
+</div>

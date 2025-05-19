@@ -1,3 +1,3 @@
 <button class="btn btn-sm btn-secondary" (click)="toggle()">
-  <i [class]="themeService.isDarkMode ? 'fas fa-sun' : 'fas fa-moon'"></i>
+  <i [class]="themeService.darkMode$ ? 'fas fa-sun' : 'fas fa-moon'"></i>
 </button>

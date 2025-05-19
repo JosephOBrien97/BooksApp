@@ -2,17 +2,26 @@
   <div class="mb-3">
     <label for="title" class="form-label">Titel</label>
     <input id="title" class="form-control" formControlName="title" />
+    <div *ngIf="bookForm.get('title')?.touched && bookForm.get('title')?.invalid" class="text-danger">
+      <small *ngIf="bookForm.get('title')?.errors?.['required']">Titel krävs.</small>
+    </div>
   </div>
 
   <div class="mb-3">
     <label for="author" class="form-label">Författare</label>
     <input id="author" class="form-control" formControlName="author" />
+    <div *ngIf="bookForm.get('author')?.touched && bookForm.get('author')?.invalid" class="text-danger">
+      <small *ngIf="bookForm.get('author')?.errors?.['required']">Författare krävs.</small>
+    </div>
   </div>
 
   <div class="mb-3">
-    <label for="publishedDate" class="form-label">Publiceringsdatum</label>
-    <input id="publishedDate" type="date" class="form-control" formControlName="publishedDate" />
+    <label for="publicationDate" class="form-label">Publiceringsdatum</label>
+    <input id="publicationDate" type="date" class="form-control" formControlName="publicationDate" />
+    <div *ngIf="bookForm.get('publicationDate')?.touched && bookForm.get('publicationDate')?.invalid" class="text-danger">
+      <small *ngIf="bookForm.get('publicationDate')?.errors?.['required']">Publiceringsdatum krävs.</small>
+    </div>
   </div>
 
-  <button type="submit" class="btn btn-success">Spara</button>
+  <button type="submit" class="btn btn-success" [disabled]="bookForm.invalid">Spara</button>
 </form>

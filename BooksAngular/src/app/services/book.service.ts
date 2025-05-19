@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = 'https://localhost:49272/api/books';
+  private apiUrl = 'https://localhost:7219/api/books';
 
   constructor(
     private http: HttpClient,
@@ -16,23 +16,23 @@ export class BookService {
   ) { }
 
   getBooks(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.apiUrl, this.getHttpOptions());
+    return this.http.get<Book[]>(this.apiUrl);
   }
 
   getBook(id: number): Observable<Book> {
-    return this.http.get<Book>(`${this.apiUrl}/${id}`, this.getHttpOptions());
+    return this.http.get<Book>(`${this.apiUrl}/${id}`);
   }
 
   addBook(book: Book): Observable<Book> {
-    return this.http.post<Book>(this.apiUrl, book, this.getHttpOptions());
+    return this.http.post<Book>(this.apiUrl, book);
   }
 
   updateBook(book: Book): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${book.id}`, book, this.getHttpOptions());
+    return this.http.put(`${this.apiUrl}/${book.id}`, book);
   }
 
   deleteBook(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, this.getHttpOptions());
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   private getHttpOptions() {

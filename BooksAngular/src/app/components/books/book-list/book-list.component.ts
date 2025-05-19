@@ -1,9 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { BookService } from 'src/app/services/book.service';
-import { Book } from 'src/app/models/book.model';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router'; 
+import { BookService } from '../../../services/book.service';
+import { Book } from '../../../models/book.model';
 
 @Component({
   selector: 'app-book-list',
+  standalone: true,
+  imports: [CommonModule, RouterModule],
   templateUrl: './book-list.component.html'
 })
 export class BookListComponent implements OnInit {

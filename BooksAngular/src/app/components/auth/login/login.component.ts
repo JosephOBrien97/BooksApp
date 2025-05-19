@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { AuthService } from 'src/app/services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 import { Router } from '@angular/router';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
+  standalone: true,
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  imports: [ReactiveFormsModule, CommonModule],
+  styleUrls: ['../auth.component.scss']
 })
 export class LoginComponent {
   loginForm: FormGroup;
@@ -21,7 +24,8 @@ export class LoginComponent {
 
   onSubmit(): void {
     const { username, password } = this.loginForm.value;
-    this.authService.login(username, password).subscribe({
+    const authRequest = { username, password };
+    this.authService.login(authRequest).subscribe({
       next: () => this.router.navigate(['/books']),
       error: err => this.errorMessage = 'Fel användarnamn eller lösenord'
     });

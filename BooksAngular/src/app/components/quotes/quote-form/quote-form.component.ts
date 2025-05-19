@@ -1,11 +1,14 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { QuoteService } from 'src/app/services/quote.service';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { QuoteService } from '../../../services/quote.service';
 
 @Component({
   selector: 'app-quote-form',
+  standalone: true,
   templateUrl: './quote-form.component.html',
-  styleUrls: ['./quote-form.component.scss']
+  imports: [ReactiveFormsModule, CommonModule],
+  styleUrls: ['../quote.component.scss']
 })
 export class QuoteFormComponent {
   quoteForm: FormGroup;
@@ -17,12 +20,13 @@ export class QuoteFormComponent {
   }
 
   onSubmit(): void {
-    if (this.quoteService.getQuotes().length >= 5) {
-      alert('Max 5 citat tillåtna.');
-      return;
-    }
-
-    this.quoteService.addQuote(this.quoteForm.value.text);
-    this.quoteForm.reset();
+    this.quoteService.getQuotes().subscribe(quotes => {
+      if (quotes.length >= 5) {
+        alert('Max 5 citat tillåtna.');
+        return;
+      }
+      this.quoteService.addQuote(this.quoteForm.value.text);
+      this.quoteForm.reset();
+    });
   }
 }

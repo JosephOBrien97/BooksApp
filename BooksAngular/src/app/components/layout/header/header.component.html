@@ -10,9 +10,11 @@
         <li class="nav-item"><a routerLink="/quotes" class="nav-link">Mina Citat</a></li>
       </ul>
       <div class="d-flex align-items-center">
+        <button *ngIf="authService.getToken()" (click)="logout()" class="btn btn-outline-light btn-sm me-3">Logga ut</button>
+        <button *ngIf="!authService.getToken()" routerLink="/login" class="btn btn-outline-light btn-sm me-3">Logga in</button>
+        <button *ngIf="!authService.getToken()" routerLink="/register" class="btn btn-outline-light btn-sm me-3">Registrera</button>
         <app-theme-toggle class="me-3"></app-theme-toggle>
-        <button *ngIf="authService.isLoggedIn()" (click)="logout()" class="btn btn-outline-light btn-sm">Logga ut</button>
-      </div>
+        </div>
     </div>
   </div>
 </nav>

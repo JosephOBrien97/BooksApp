@@ -1,4 +1,4 @@
-<div class="container mt-4">
+<!--<div class="container mt-4">
   <h2>Add a Quote</h2>
   <form (ngSubmit)="onSubmit()">
     <div class="mb-3">
@@ -7,4 +7,20 @@
     </div>
     <button type="submit" class="btn btn-primary">Add Quote</button>
   </form>
-</div>
+</div>-->
+
+<form [formGroup]="quoteForm" (ngSubmit)="onSubmit()">
+  <div class="mb-3">
+    <label for="quote" class="form-label">Citat</label>
+    <input type="text"
+           id="quote"
+           formControlName="text"
+           class="form-control"
+           [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched" />
+    <div *ngIf="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched" class="invalid-feedback">
+      Citat är obligatoriskt och får inte vara längre än 250 tecken.
+    </div>
+  </div>
+
+  <button type="submit" class="btn btn-primary" [disabled]="quoteForm.invalid">Lägg till</button>
+</form>

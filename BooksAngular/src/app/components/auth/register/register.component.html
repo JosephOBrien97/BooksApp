@@ -1,14 +1,22 @@
 <div class="container mt-4">
-  <h2>Register</h2>
+  <h2>Registrera</h2>
   <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <div class="mb-3">
       <label for="username" class="form-label">Username</label>
       <input type="text" id="username" formControlName="username" class="form-control">
+      <div *ngIf="registerForm.get('username')?.touched && registerForm.get('username')?.invalid" class="text-danger">
+        <small *ngIf="registerForm.get('username')?.errors?.['required']">Användarnamn krävs.</small>
+        <small *ngIf="registerForm.get('username')?.errors?.['minlength']">Minst 3 tecken.</small>
+      </div>
     </div>
     <div class="mb-3">
       <label for="password" class="form-label">Password</label>
       <input type="password" id="password" formControlName="password" class="form-control">
+      <div *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.invalid" class="text-danger">
+        <small *ngIf="registerForm.get('password')?.errors?.['required']">Lösenord krävs.</small>
+        <small *ngIf="registerForm.get('password')?.errors?.['minlength']">Minst 6 tecken.</small>
+      </div>
     </div>
-    <button type="submit" class="btn btn-primary">Register</button>
+    <button type="submit" class="btn btn-primary" [disabled]="registerForm.invalid">Register</button>
   </form>
 </div>

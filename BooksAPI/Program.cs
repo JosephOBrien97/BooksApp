@@ -12,7 +12,6 @@ using BooksAPI.Repositories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
 builder.Services.AddControllers();
 
@@ -93,7 +92,6 @@ var app = builder.Build();
 app.UseDefaultFiles();
 app.UseStaticFiles();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
@@ -102,60 +100,21 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseRouting();
-app.UseCors("AllowAngularApp");
+
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAngularApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 
-app.MapFallbackToFile("/index.html");
+//app.MapFallbackToFile("/index.html");
 
 using (var scope = app.Services.CreateScope())
 {
     var dbContext = scope.ServiceProvider.GetRequiredService<BookAppDb>();
     dbContext.Database.Migrate();
 }
-
-// Add this method to map book-related endpoints
-/*public static class BookEndpoints
-{
-    public static IEndpointRouteBuilder MapBookEndpoints(this IEndpointRouteBuilder endpoints)
-    {
-        endpoints.MapGet("/api/books", async (IBookRepository repo) =>
-        {
-            var books = await repo.GetAllAsync();
-            return Results.Ok(books);
-        });
-
-        endpoints.MapGet("/api/books/{id:int}", async (int id, IBookRepository repo) =>
-        {
-            var book = await repo.GetByIdAsync(id);
-            return book is not null ? Results.Ok(book) : Results.NotFound();
-        });
-
-        endpoints.MapPost("/api/books", async (Book book, IBookRepository repo) =>
-        {
-            var created = await repo.AddAsync(book);
-            return Results.Created($"/api/books/{created.Id}", created);
-        });
-
-        endpoints.MapPut("/api/books/{id:int}", async (int id, Book book, IBookRepository repo) =>
-        {
-            var updated = await repo.UpdateAsync(id, book);
-            return updated ? Results.NoContent() : Results.NotFound();
-        });
-
-        endpoints.MapDelete("/api/books/{id:int}", async (int id, IBookRepository repo) =>
-        {
-            var deleted = await repo.DeleteAsync(id);
-            return deleted ? Results.NoContent() : Results.NotFound();
-        });
-
-        return endpoints;
-    }
-}*/
-//app.MapBookEndpoints();
 
 app.Run();

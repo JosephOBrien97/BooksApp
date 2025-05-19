@@ -1,14 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-// Fix 1: Correct the import path for BookService
-import { BookService } from '../../../services/book.service';
-import { Book } from '../../../models/book.model';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Book } from '../../../models/book.model';
+import { BookService } from '../../../services/book.service';
 
 @Component({
   selector: 'app-book-form',
+  standalone: true,
   templateUrl: './book-form.component.html',
-  styleUrls: ['./book-form.component.scss']
+  imports: [ReactiveFormsModule, CommonModule],
+  styleUrls: ['../book.component.scss']
 })
 export class BookFormComponent implements OnInit {
   bookForm!: FormGroup;
@@ -26,7 +28,7 @@ export class BookFormComponent implements OnInit {
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
-      publishedDate: ['', Validators.required]
+      publicationDate: ['', Validators.required]
     });
 
     const id = this.route.snapshot.paramMap.get('id');

@@ -5,9 +5,10 @@
     <div class="card-body">
       <h5 class="card-title">{{ book.title }}</h5>
       <p class="card-text">Author: {{ book.author }}</p>
-      <p class="card-text">Published: {{ book.publishedDate | date }}</p>
-      <a [routerLink]="['/books', book.id]" class="btn btn-secondary btn-sm">Details</a>
-      <a [routerLink]="['/books', book.id, 'edit']" class="btn btn-warning btn-sm">Edit</a>
+      <p class="card-text">Published: {{ book.publicationDate | date }}</p>
+      <a [routerLink]="['/books', book.id, 'edit']" class="btn btn-warning btn-sm me-3">Edit</a>
+      <a [routerLink]="['/books', book.id]" class="btn btn-secondary btn-sm">Delete</a>
     </div>
   </div>
 </div>
+

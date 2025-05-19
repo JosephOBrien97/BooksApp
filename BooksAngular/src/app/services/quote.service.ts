@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class QuoteService {
-  private apiUrl = 'https://localhost:49272/api/quotes'; 
+  private apiUrl = 'https://localhost:4200/api/quotes'; 
 
   constructor(
     private http: HttpClient,
@@ -16,23 +16,23 @@ export class QuoteService {
   ) { }
 
   getQuotes(): Observable<Quote[]> {
-    return this.http.get<Quote[]>(this.apiUrl, this.getHttpOptions());
+    return this.http.get<Quote[]>(this.apiUrl);
   }
 
   getQuote(id: number): Observable<Quote> {
-    return this.http.get<Quote>(`${this.apiUrl}/${id}`, this.getHttpOptions());
+    return this.http.get<Quote>(`${this.apiUrl}/${id}`);
   }
 
   addQuote(quote: Quote): Observable<Quote> {
-    return this.http.post<Quote>(this.apiUrl, quote, this.getHttpOptions());
+    return this.http.post<Quote>(this.apiUrl, quote);
   }
 
   updateQuote(quote: Quote): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${quote.id}`, quote, this.getHttpOptions());
+    return this.http.put(`${this.apiUrl}/${quote.id}`, quote);
   }
 
   deleteQuote(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, this.getHttpOptions());
+    return this.http.delete(`${this.apiUrl}/${id}`);
   }
 
   private getHttpOptions() {
