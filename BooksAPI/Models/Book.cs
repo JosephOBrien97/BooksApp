@@ -15,8 +15,6 @@ namespace BooksAPI.Models
         public string Author { get; set; } = string.Empty;
 
         public DateTime PublicationDate { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? UpdatedAt { get; set; } = DateTime.UtcNow;
 
         // Foreign key
         public int UserId { get; set; }

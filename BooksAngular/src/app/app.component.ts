@@ -8,8 +8,7 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   standalone: true,
   templateUrl: './app.component.html',
-  imports: [FooterComponent, HeaderComponent, RouterOutlet, HttpClientModule], 
-  styleUrls: ['./app.component.scss']
+  imports: [FooterComponent, HeaderComponent, RouterOutlet, HttpClientModule]
 })
 export class AppComponent {
 

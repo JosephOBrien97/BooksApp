@@ -22,16 +22,11 @@ namespace BooksAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuoteDto>>> GetUserQuotes()
+        public async Task<ActionResult<IEnumerable<QuoteDto>>> GetQuotes()
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
-
-            var quotes = await _quoteRepository.GetQuotesByUserIdAsync(int.Parse(userId));
+            var quotes = await _quoteRepository.GetQuotesByUserIdAsync(userId);
             var quoteDtos = new List<QuoteDto>();
 
             foreach (var quote in quotes)
@@ -39,8 +34,7 @@ namespace BooksAPI.Controllers
                 quoteDtos.Add(new QuoteDto
                 {
                     Id = quote.Id,
-                    Text = quote.Text,
-                    Author = quote.Author
+                    Text = quote.Text
                 });
             }
 
@@ -72,25 +66,18 @@ namespace BooksAPI.Controllers
             var quoteDto = new QuoteDto
             {
                 Id = quote.Id,
-                Text = quote.Text,
-                Author = quote.Author
+                Text = quote.Text
             };
 
             return Ok(quoteDto);
         }
 
         [HttpPost]
-        public async Task<ActionResult<QuoteDto>> CreateQuote(QuoteDto quoteDto)
+        public async Task<ActionResult<QuoteDto>> AddQuote(QuoteDto quoteDto)
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
-
-            // Get user's current quotes count using repository method for efficiency
-            var userQuotesCount = await _quoteRepository.GetUserQuotesCountAsync(int.Parse(userId));
+            var userQuotesCount = await _quoteRepository.GetUserQuotesCountAsync(userId);
             if (userQuotesCount >= 5)
             {
                 return BadRequest(new { Message = "Maximum of 5 quotes allowed per user" });
@@ -99,10 +86,7 @@ namespace BooksAPI.Controllers
             var quote = new Quote
             {
                 Text = quoteDto.Text,
-                Author = quoteDto.Author,
-                Source = quoteDto.Source,
-                UserId = int.Parse(userId),
-                CreatedAt = DateTime.UtcNow
+                UserId = userId,
             };
 
             var added = await _quoteRepository.AddQuoteAsync(quote);
@@ -112,7 +96,6 @@ namespace BooksAPI.Controllers
             }
 
             quoteDto.Id = quote.Id;
-            quoteDto.CreatedAt = quote.CreatedAt;
 
             return CreatedAtAction(nameof(GetQuote), new { id = quote.Id }, quoteDto);
         }
@@ -145,7 +128,6 @@ namespace BooksAPI.Controllers
             }
 
             existingQuote.Text = quoteDto.Text;
-            existingQuote.Author = quoteDto.Author;
 
             await _quoteRepository.UpdateQuoteAsync(existingQuote);
 

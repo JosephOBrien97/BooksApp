@@ -36,9 +36,7 @@ namespace BooksAPI.Controllers
                     Id = book.Id,
                     Title = book.Title,
                     Author = book.Author,
-                    PublicationDate = book.PublicationDate,
-                    CreatedAt = book.CreatedAt,
-                    UpdatedAt = book.UpdatedAt
+                    PublicationDate = book.PublicationDate
                 })
                 .ToList();
 
@@ -60,15 +58,13 @@ namespace BooksAPI.Controllers
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
-                PublicationDate = book.PublicationDate,
-                CreatedAt = book.CreatedAt,
-                UpdatedAt = book.UpdatedAt
+                PublicationDate = book.PublicationDate
             };
 
             return Ok(bookDto);
         }
         [HttpPost]
-        public async Task<ActionResult<BookDto>> CreateBook(BookDto bookDto)
+        public async Task<ActionResult<BookDto>> AddBook(BookDto bookDto)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 

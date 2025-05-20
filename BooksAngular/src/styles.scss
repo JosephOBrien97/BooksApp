@@ -5,6 +5,7 @@
   --card-background: #ffffff;
   --text-color: #333333;
   --border-color: #e0e0e0;
+ 
 }
 
 body {
@@ -25,11 +26,10 @@ body.dark-theme {
   --text-color: #ffffff;
   --border-color: #616161;
 }
-
-.card {
-  background-color: var(--card-background);
-  border: 1px solid var(--border-color);
-  transition: all 0.3s ease;
+body.dark-theme .card {
+  background-color: var(--card-background) !important;
+  border: 1px solid var(--border-color) !important;
+  color: var(--text-color) !important;
 }
 
 .btn-primary {
@@ -41,3 +41,4 @@ body.dark-theme {
   background-color: var(--secondary-color);
   border-color: var(--secondary-color);
 }
+

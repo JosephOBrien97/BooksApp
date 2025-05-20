@@ -76,14 +76,13 @@
               "buildTarget": "booksapp.client:build:production"
             },
             "development": {
-              "buildTarget": "booksapp.client:build:development"
+              "buildTarget": "booksapp.client:build:development",
+              "ssl": true,
+              "proxyConfig": "src/proxy.conf.js",
+              "port": 4200
             }
           },
-          "defaultConfiguration": "development",
-          "options": {
-            "proxyConfig": "src/proxy.conf.js",
-            "port": 4200
-          }
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n"

@@ -19,7 +19,6 @@ namespace BooksAPI.Repositories
         {
             return await _context.Quotes
                 .Include(q => q.User)
-                .OrderByDescending(q => q.CreatedAt)
                 .ToListAsync();
         }
 
@@ -34,7 +33,6 @@ namespace BooksAPI.Repositories
         {
             return await _context.Quotes
                 .Where(q => q.UserId == userId)
-                .OrderByDescending(q => q.CreatedAt)
                 .ToListAsync();
         }
 
@@ -51,7 +49,6 @@ namespace BooksAPI.Repositories
 
         public async Task<bool> UpdateQuoteAsync(Quote quote)
         {
-            quote.UpdatedAt = DateTime.UtcNow;
             _context.Quotes.Update(quote);
             return await _context.SaveChangesAsync() > 0;
         }

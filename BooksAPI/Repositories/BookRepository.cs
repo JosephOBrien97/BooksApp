@@ -18,7 +18,6 @@ namespace BooksAPI.Repositories
         {
             return await _context.Books
                 .Include(b => b.User)
-                .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
         }
 
@@ -33,7 +32,6 @@ namespace BooksAPI.Repositories
         {
             return await _context.Books
                 .Where(b => b.UserId == userId)
-                .OrderByDescending(b => b.CreatedAt)
                 .ToListAsync();
         }
 
@@ -45,7 +43,6 @@ namespace BooksAPI.Repositories
 
         public async Task<bool> UpdateBookAsync(Book book)
         {
-            book.UpdatedAt = DateTime.UtcNow;
             _context.Books.Update(book);
             return await _context.SaveChangesAsync() > 0;
         }

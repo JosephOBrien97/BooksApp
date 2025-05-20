@@ -1,9 +1,19 @@
-<h4>Mina Favoritcitat</h4>
-<ul class="list-group mb-3">
-  <li *ngFor="let quote of quoteService.getQuotes() | async; let i = index" accesskeyclass="list-group-item d-flex justify-content-between align-items-center">
-    {{ quote }}
-    <button class="btn btn-sm btn-outline-danger" (click)="removeQuote(i)">
-      <i class="fas fa-trash"></i>
-    </button>
-  </li>
-</ul>
+<div class="container mt-4">
+  <h4>Mina Favoritcitat</h4>
+  <a class="btn btn-primary mb-3" routerLink="/quotes/new">Add New Quote</a>
+  <!--<ul class="list-group mb-3" *ngIf="quotes.length > 0; else noQuotes">
+    <li *ngFor="let quote of quotes; let i = index" class="list-group-item d-flex justify-content-between align-items-center card-text">
+      {{ quote }}
+      <a [routerLink]="['/quotes', quote.id]" class="btn btn-secondary btn-sm">Delete</a>
+    </li>
+  </ul>-->
+  <div *ngFor="let quote of quotes" class="card mb-2">
+    <div class="card-body">
+      <h5 class="card-title">{{ quote.text }}</h5>
+      <a [routerLink]="['/quotes', quote.id]" class="btn btn-secondary btn-sm">Delete</a>
+    </div>
+  </div>
+  <ng-template #noQuotes>
+    <div class="card-text text-muted ">Inga citat tillagda ännu.</div>
+  </ng-template>
+</div>

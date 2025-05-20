@@ -7,8 +7,8 @@
       <p class="card-text">Author: {{ book.author }}</p>
       <p class="card-text">Published: {{ book.publicationDate | date }}</p>
       <a [routerLink]="['/books', book.id, 'edit']" class="btn btn-warning btn-sm me-3">Edit</a>
-      <a [routerLink]="['/books', book.id]" class="btn btn-secondary btn-sm">Delete</a>
+      <a [routerLink]="['/books', book.id]" class="btn btn-secondary btn-sm ">Delete</a>
     </div>
   </div>
-</div>
+  </div>
 

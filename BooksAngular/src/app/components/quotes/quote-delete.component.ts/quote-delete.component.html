@@ -1,0 +1,5 @@
+<div *ngIf="quote" class="container mt-4 text-center">
+  <h2 class="text-danger">Citatet har raderats</h2>
+  <p><strong>Text:</strong> {{ quote.text }}</p>
+  <a routerLink="/quote/:userId" class="btn btn-outline-secondary mt-3">Tillbaka till böcker</a>
+</div>

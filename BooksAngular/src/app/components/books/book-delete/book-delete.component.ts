@@ -10,7 +10,7 @@ import { BookService } from '../../../services/book.service';
   templateUrl: './book-delete.component.html',
   imports: [CommonModule]
 })
-export class BookDetailComponent implements OnInit {
+export class BookDeleteComponent implements OnInit {
   book?: Book;
 
   constructor(
@@ -28,7 +28,7 @@ export class BookDetailComponent implements OnInit {
 
           setTimeout(() => {
             this.router.navigate(['/books']);
-          }, 2000);
+          });
         }
       });
     }

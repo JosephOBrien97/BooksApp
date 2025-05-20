@@ -9,13 +9,13 @@ import { BookService } from '../../../services/book.service';
   selector: 'app-book-form',
   standalone: true,
   templateUrl: './book-form.component.html',
-  imports: [ReactiveFormsModule, CommonModule],
-  styleUrls: ['../book.component.scss']
+  imports: [ReactiveFormsModule, CommonModule]
 })
 export class BookFormComponent implements OnInit {
   bookForm!: FormGroup;
-  isEdit = false;
   bookId!: number;
+  isEdit = false;
+  
 
   constructor(
     private fb: FormBuilder,
@@ -24,20 +24,29 @@ export class BookFormComponent implements OnInit {
     private router: Router
   ) {}
 
+  private formatDate(date: string | Date): string {
+    const d = new Date(date);
+    return d.toISOString().split('T')[0];
+  }
+
   ngOnInit(): void {
+    const id = this.route.snapshot.paramMap.get('id');
     this.bookForm = this.fb.group({
       title: ['', Validators.required],
       author: ['', Validators.required],
-      publicationDate: ['', Validators.required]
+      publicationDate: [this.formatDate(new Date()), Validators.required]
     });
 
-    const id = this.route.snapshot.paramMap.get('id');
+    
     if (id) {
       this.isEdit = true;
       this.bookId = +id;
-      // Fix 3: Explicitly type the 'book' parameter
       this.bookService.getBook(this.bookId).subscribe((book: Book) => {
-        this.bookForm.patchValue(book);
+        this.bookForm.patchValue({
+          title: book.title,
+          author: book.author,
+          publicationDate: this.formatDate(book.publicationDate)
+        });
       });
     }
   }

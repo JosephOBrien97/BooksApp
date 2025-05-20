@@ -13,11 +13,6 @@ namespace BooksAPI.Models
         [Required]
         [StringLength(75, MinimumLength = 5)]
         public string PasswordHash { get; set; } = string.Empty;
-        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
-        public string? RefreshToken { get; set; }
-        public DateTime RefreshTokenExpiry { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? LastActive { get; set; } = DateTime.UtcNow;
 
         // Navigation property
         public ICollection<Book>? Books { get; set; }

@@ -17,8 +17,5 @@ namespace BooksAPI.Models.DTOs
         [Required]
         public DateTime PublicationDate { get; set; }
 
-        public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-        public string Username { get; set; } = string.Empty;
     }
 }

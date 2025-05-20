@@ -8,8 +8,7 @@ import { ThemeToggleComponent } from '../../shared/theme-toggle/theme-toggle.com
   selector: 'app-header',
   standalone: true,
   templateUrl: './header.component.html',
-  imports: [ThemeToggleComponent, CommonModule, RouterModule],
-  styleUrls: ['../layout.component.scss']
+  imports: [ThemeToggleComponent, CommonModule, RouterModule]
 })
 export class HeaderComponent {
   constructor(public authService: AuthService, private router: Router) { }

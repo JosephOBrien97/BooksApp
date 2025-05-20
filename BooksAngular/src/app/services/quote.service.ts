@@ -8,7 +8,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class QuoteService {
-  private apiUrl = 'https://localhost:4200/api/quotes'; 
+  private apiUrl = '/api/quotes'; 
 
   constructor(
     private http: HttpClient,

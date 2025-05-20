@@ -8,7 +8,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:4200/api/auth'; 
+  private apiUrl = '/api/auth'; 
   private jwtHelper = new JwtHelperService();
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidToken());
 
