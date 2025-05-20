@@ -1,17 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using BooksAPI.Data;
+﻿using BooksAPI.Models;
 using BooksAPI.Models.DTOs;
+using BooksAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using BooksAPI.Models;
+using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
-using BooksAPI.Repositories.Interfaces;
 
 namespace BooksAPI.Controllers
 {
@@ -32,12 +25,12 @@ namespace BooksAPI.Controllers
         {
             var books = await _bookRepository.GetAllBooksAsync();
             var bookDto = books.Select(book => new BookDto
-                {
-                    Id = book.Id,
-                    Title = book.Title,
-                    Author = book.Author,
-                    PublicationDate = book.PublicationDate
-                })
+            {
+                Id = book.Id,
+                Title = book.Title,
+                Author = book.Author,
+                PublicationDate = book.PublicationDate
+            })
                 .ToList();
 
             return Ok(bookDto);

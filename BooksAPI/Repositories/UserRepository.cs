@@ -27,7 +27,7 @@ namespace BooksAPI.Repositories
 
         public async Task<bool> UserExistsAsync(string username)
         {
-            return await _context.Users.AnyAsync(u => 
+            return await _context.Users.AnyAsync(u =>
                 u.Username.ToLower() == username.ToLower());
         }
 
@@ -45,7 +45,7 @@ namespace BooksAPI.Repositories
 
         public async Task<bool> DeleteUserAsync(int id)
         {
-           _context.Users.Remove(new AppUser { Id = id });
+            _context.Users.Remove(new AppUser { Id = id });
             return await _context.SaveChangesAsync() > 0;
         }
     }

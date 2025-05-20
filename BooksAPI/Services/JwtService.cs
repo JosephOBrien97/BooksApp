@@ -1,9 +1,9 @@
-﻿using System.IdentityModel.Tokens.Jwt;
+﻿using BooksAPI.Models;
+using BooksAPI.Services.Interfaces;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.IdentityModel.Tokens;
-using BooksAPI.Models;
-using BooksAPI.Services.Interfaces;
 
 namespace BooksAPI.Services
 {
@@ -24,7 +24,7 @@ namespace BooksAPI.Services
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(
                 _config.GetSection("JwtSettings:SecretKey").Value!));
-            
+
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha512Signature);
 
             var tokenDescriptor = new SecurityTokenDescriptor

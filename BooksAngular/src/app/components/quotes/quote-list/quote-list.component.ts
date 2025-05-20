@@ -12,7 +12,7 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './quote-list.component.html',
   imports: [CommonModule, RouterModule],
 })
-export class QuoteListComponent {
+export class QuoteListComponent implements OnInit {
   quotes: Quote[] = [];
 
   constructor(

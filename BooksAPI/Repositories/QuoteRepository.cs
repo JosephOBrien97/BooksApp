@@ -14,7 +14,7 @@ namespace BooksAPI.Repositories
         {
             _context = context;
         }
-        
+
         public async Task<IEnumerable<Quote>> GetAllQuotesAsync()
         {
             return await _context.Quotes

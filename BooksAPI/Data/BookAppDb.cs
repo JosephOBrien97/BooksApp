@@ -1,6 +1,5 @@
 ﻿using BooksAPI.Models;
 using Microsoft.EntityFrameworkCore;
-using BooksAPI.Models.DTOs;
 
 namespace BooksAPI.Data
 {
@@ -10,8 +9,8 @@ namespace BooksAPI.Data
         {
         }
 
-        public DbSet<AppUser> Users { get; set; } 
-        public DbSet<Book> Books { get; set; } 
+        public DbSet<AppUser> Users { get; set; }
+        public DbSet<Book> Books { get; set; }
         public DbSet<Quote> Quotes { get; set; }
 
 

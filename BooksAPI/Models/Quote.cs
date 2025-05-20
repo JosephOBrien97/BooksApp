@@ -9,7 +9,7 @@ namespace BooksAPI.Models
         [Required]
         [StringLength(500)]
         public string Text { get; set; } = string.Empty;
-        
+
 
         // Foreign key
         public int UserId { get; set; }

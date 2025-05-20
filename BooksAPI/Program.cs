@@ -1,14 +1,13 @@
-﻿using System.Security.Authentication.ExtendedProtection;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
-using BooksAPI.Data;
-using BooksAPI.Services;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
-using BooksAPI.Services.Interfaces;
+﻿using BooksAPI.Data;
 using BooksAPI.Repositories;
 using BooksAPI.Repositories.Interfaces;
+using BooksAPI.Services;
+using BooksAPI.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 

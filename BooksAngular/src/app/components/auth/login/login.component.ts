@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angula
 })
 export class LoginComponent {
   loginForm: FormGroup;
-  errorMessage: string = '';
+  errorMessage = '';
 
   constructor(private fb: FormBuilder, private authService: AuthService, private router: Router) {
     this.loginForm = this.fb.group({
