@@ -1,9 +1,8 @@
 ﻿using BooksAPI.Models;
 
-namespace BooksAPI.Services.Interfaces
+namespace BooksAPI.Services.Interfaces;
+
+public interface IJwtService
 {
-    public interface IJwtService
-    {
-        string GenerateToken(AppUser user);
-    }
+    string GenerateToken(AppUser user);
 }

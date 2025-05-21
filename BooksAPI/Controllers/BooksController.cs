@@ -1,147 +1,120 @@
-﻿using BooksAPI.Models;
+﻿using System.Security.Claims;
+using BooksAPI.Models;
 using BooksAPI.Models.DTOs;
 using BooksAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
-namespace BooksAPI.Controllers
+namespace BooksAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+public class BooksController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class BooksController : ControllerBase
+    private readonly IBookRepository _bookRepository;
+
+    public BooksController(IBookRepository context)
     {
-        private readonly IBookRepository _bookRepository;
+        _bookRepository = context;
+    }
 
-        public BooksController(IBookRepository context)
-        {
-            _bookRepository = context;
-        }
-
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookDto>>> GetAllBooks()
-        {
-            var books = await _bookRepository.GetAllBooksAsync();
-            var bookDto = books.Select(book => new BookDto
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<BookDto>>> GetAllBooks()
+    {
+        var books = await _bookRepository.GetAllBooksAsync();
+        var bookDto = books.Select(book => new BookDto
             {
                 Id = book.Id,
                 Title = book.Title,
                 Author = book.Author,
                 PublicationDate = book.PublicationDate
             })
-                .ToList();
+            .ToList();
 
-            return Ok(bookDto);
-        }
+        return Ok(bookDto);
+    }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<BookDto>> GetBook(int id)
+    [HttpGet("{id:int}")]
+    public async Task<ActionResult<BookDto>> GetBook(int id)
+    {
+        var book = await _bookRepository.GetBookByIdAsync(id);
+
+        if (book == null) return NotFound();
+
+        var bookDto = new BookDto
         {
-            var book = await _bookRepository.GetBookByIdAsync(id);
+            Id = book.Id,
+            Title = book.Title,
+            Author = book.Author,
+            PublicationDate = book.PublicationDate
+        };
 
-            if (book == null)
-            {
-                return NotFound();
-            }
+        return Ok(bookDto);
+    }
 
-            var bookDto = new BookDto
-            {
-                Id = book.Id,
-                Title = book.Title,
-                Author = book.Author,
-                PublicationDate = book.PublicationDate
-            };
+    [HttpPost]
+    public async Task<ActionResult<BookDto>> AddBook(BookDto bookDto)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            return Ok(bookDto);
-        }
-        [HttpPost]
-        public async Task<ActionResult<BookDto>> AddBook(BookDto bookDto)
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+        var book = new Book
         {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            Title = bookDto.Title,
+            Author = bookDto.Author,
+            PublicationDate = bookDto.PublicationDate,
+            UserId = int.Parse(userId)
+        };
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
+        await _bookRepository.AddBookAsync(book);
 
-            var book = new Book
-            {
-                Title = bookDto.Title,
-                Author = bookDto.Author,
-                PublicationDate = bookDto.PublicationDate,
-                UserId = int.Parse(userId)
-            };
+        bookDto.Id = book.Id;
 
-            await _bookRepository.AddBookAsync(book);
+        return CreatedAtAction(nameof(GetBook), new { id = book.Id }, bookDto);
+    }
 
-            bookDto.Id = book.Id;
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateBook(int id, BookDto bookDto)
+    {
+        if (id != bookDto.Id) return BadRequest();
 
-            return CreatedAtAction(nameof(GetBook), new { id = book.Id }, bookDto);
-        }
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateBook(int id, BookDto bookDto)
-        {
-            if (id != bookDto.Id)
-            {
-                return BadRequest();
-            }
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var existingBook = await _bookRepository.GetBookByIdAsync(id);
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
+        if (existingBook == null) return NotFound();
 
-            var existingBook = await _bookRepository.GetBookByIdAsync(id);
+        if (existingBook.UserId != int.Parse(userId)) return Forbid();
 
-            if (existingBook == null)
-            {
-                return NotFound();
-            }
+        existingBook.Title = bookDto.Title;
+        existingBook.Author = bookDto.Author;
+        existingBook.PublicationDate = bookDto.PublicationDate;
 
-            if (existingBook.UserId != int.Parse(userId))
-            {
-                return Forbid();
-            }
+        await _bookRepository.UpdateBookAsync(existingBook);
 
-            existingBook.Title = bookDto.Title;
-            existingBook.Author = bookDto.Author;
-            existingBook.PublicationDate = bookDto.PublicationDate;
+        return NoContent();
+    }
 
-            await _bookRepository.UpdateBookAsync(existingBook);
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteBook(int id)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            return NoContent();
-        }
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteBook(int id)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var book = await _bookRepository.GetBookByIdAsync(id);
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
+        if (book == null) return NotFound();
 
-            var book = await _bookRepository.GetBookByIdAsync(id);
+        if (book.UserId != int.Parse(userId)) return Forbid();
 
-            if (book == null)
-            {
-                return NotFound();
-            }
+        await _bookRepository.DeleteBookAsync(id);
 
-            if (book.UserId != int.Parse(userId))
-            {
-                return Forbid();
-            }
-
-            await _bookRepository.DeleteBookAsync(id);
-
-            return NoContent();
-        }
+        return NoContent();
     }
 }

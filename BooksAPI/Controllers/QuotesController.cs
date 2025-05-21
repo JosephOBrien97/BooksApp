@@ -1,163 +1,125 @@
-﻿using BooksAPI.Models;
+﻿using System.Security.Claims;
+using BooksAPI.Models;
 using BooksAPI.Models.DTOs;
 using BooksAPI.Repositories.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Claims;
 
-namespace BooksAPI.Controllers
+namespace BooksAPI.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
+public class QuotesController : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-    public class QuotesController : ControllerBase
+    private readonly IQuoteRepository _quoteRepository;
+
+    public QuotesController(IQuoteRepository quoteRepository)
     {
-        private readonly IQuoteRepository _quoteRepository;
+        _quoteRepository = quoteRepository;
+    }
 
-        public QuotesController(IQuoteRepository quoteRepository)
-        {
-            _quoteRepository = quoteRepository;
-        }
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<QuoteDto>>> GetQuotes()
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<QuoteDto>>> GetQuotes()
-        {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+        var quotes = await _quoteRepository.GetQuotesByUserIdAsync(userId);
+        var quoteDtos = new List<QuoteDto>();
 
-            var quotes = await _quoteRepository.GetQuotesByUserIdAsync(userId);
-            var quoteDtos = new List<QuoteDto>();
-
-            foreach (var quote in quotes)
-            {
-                quoteDtos.Add(new QuoteDto
-                {
-                    Id = quote.Id,
-                    Text = quote.Text
-                });
-            }
-
-            return Ok(quoteDtos);
-        }
-
-        [HttpGet("{id}")]
-        public async Task<ActionResult<QuoteDto>> GetQuote(int id)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
-
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
-
-            var quote = await _quoteRepository.GetQuoteByIdAsync(id);
-
-            if (quote == null)
-            {
-                return NotFound();
-            }
-
-            if (quote.UserId != int.Parse(userId))
-            {
-                return Forbid();
-            }
-
-            var quoteDto = new QuoteDto
+        foreach (var quote in quotes)
+            quoteDtos.Add(new QuoteDto
             {
                 Id = quote.Id,
                 Text = quote.Text
-            };
+            });
 
-            return Ok(quoteDto);
-        }
+        return Ok(quoteDtos);
+    }
 
-        [HttpPost]
-        public async Task<ActionResult<QuoteDto>> AddQuote(QuoteDto quoteDto)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<QuoteDto>> GetQuote(int id)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
+
+        var quote = await _quoteRepository.GetQuoteByIdAsync(id);
+
+        if (quote == null) return NotFound();
+
+        if (quote.UserId != int.Parse(userId)) return Forbid();
+
+        var quoteDto = new QuoteDto
         {
-            var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
+            Id = quote.Id,
+            Text = quote.Text
+        };
 
-            var userQuotesCount = await _quoteRepository.GetUserQuotesCountAsync(userId);
-            if (userQuotesCount >= 5)
-            {
-                return BadRequest(new { Message = "Maximum of 5 quotes allowed per user" });
-            }
+        return Ok(quoteDto);
+    }
 
-            var quote = new Quote
-            {
-                Text = quoteDto.Text,
-                UserId = userId,
-            };
+    [HttpPost]
+    public async Task<ActionResult<QuoteDto>> AddQuote(QuoteDto quoteDto)
+    {
+        var userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)?.Value!);
 
-            var added = await _quoteRepository.AddQuoteAsync(quote);
-            if (!added)
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Failed to add quote" });
-            }
+        var userQuotesCount = await _quoteRepository.GetUserQuotesCountAsync(userId);
+        if (userQuotesCount >= 5) return BadRequest(new { Message = "Maximum of 5 quotes allowed per user" });
 
-            quoteDto.Id = quote.Id;
-
-            return CreatedAtAction(nameof(GetQuote), new { id = quote.Id }, quoteDto);
-        }
-
-        [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateQuote(int id, QuoteDto quoteDto)
+        var quote = new Quote
         {
-            if (id != quoteDto.Id)
-            {
-                return BadRequest();
-            }
+            Text = quoteDto.Text,
+            UserId = userId
+        };
 
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        var added = await _quoteRepository.AddQuoteAsync(quote);
+        if (!added)
+            return StatusCode(StatusCodes.Status500InternalServerError, new { Message = "Failed to add quote" });
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
+        quoteDto.Id = quote.Id;
 
-            var existingQuote = await _quoteRepository.GetQuoteByIdAsync(id);
+        return CreatedAtAction(nameof(GetQuote), new { id = quote.Id }, quoteDto);
+    }
 
-            if (existingQuote == null)
-            {
-                return NotFound();
-            }
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateQuote(int id, QuoteDto quoteDto)
+    {
+        if (id != quoteDto.Id) return BadRequest();
 
-            if (existingQuote.UserId != int.Parse(userId))
-            {
-                return Forbid();
-            }
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            existingQuote.Text = quoteDto.Text;
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            await _quoteRepository.UpdateQuoteAsync(existingQuote);
+        var existingQuote = await _quoteRepository.GetQuoteByIdAsync(id);
 
-            return NoContent();
-        }
+        if (existingQuote == null) return NotFound();
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteQuote(int id)
-        {
-            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        if (existingQuote.UserId != int.Parse(userId)) return Forbid();
 
-            if (string.IsNullOrEmpty(userId))
-            {
-                return Unauthorized();
-            }
+        existingQuote.Text = quoteDto.Text;
 
-            var quote = await _quoteRepository.GetQuoteByIdAsync(id);
+        await _quoteRepository.UpdateQuoteAsync(existingQuote);
 
-            if (quote == null)
-            {
-                return NotFound();
-            }
+        return NoContent();
+    }
 
-            if (quote.UserId != int.Parse(userId))
-            {
-                return Forbid();
-            }
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteQuote(int id)
+    {
+        var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
 
-            await _quoteRepository.DeleteQuoteAsync(id);
+        if (string.IsNullOrEmpty(userId)) return Unauthorized();
 
-            return NoContent();
-        }
+        var quote = await _quoteRepository.GetQuoteByIdAsync(id);
+
+        if (quote == null) return NotFound();
+
+        if (quote.UserId != int.Parse(userId)) return Forbid();
+
+        await _quoteRepository.DeleteQuoteAsync(id);
+
+        return NoContent();
     }
 }

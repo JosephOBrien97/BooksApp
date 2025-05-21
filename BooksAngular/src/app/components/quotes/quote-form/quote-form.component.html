@@ -5,7 +5,7 @@
            id="quote"
            formControlName="text"
            class="form-control"
-           [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched" />
+           [class.is-invalid]="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched"/>
     <div *ngIf="quoteForm.get('text')?.invalid && quoteForm.get('text')?.touched" class="invalid-feedback">
       Citat är obligatoriskt och får inte vara längre än 250 tecken.
     </div>
