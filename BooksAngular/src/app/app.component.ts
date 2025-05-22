@@ -1,5 +1,5 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { Component } from '@angular/core';
 import { FooterComponent } from './components/layout/footer/footer.component';
 import { HeaderComponent } from './components/layout/header/header.component'; 
 import { RouterOutlet } from '@angular/router';

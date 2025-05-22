@@ -23,8 +23,8 @@ export class QuoteDeleteComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.quoteService.deleteQuote(+id).subscribe({
-        next: (deletedQuote) => {
-          this.quote = deletedQuote;
+        next: () => {
+          this.quote = undefined;
 
           setTimeout(() => {
             this.router.navigate(['/quotes']);

@@ -1,11 +1,16 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <div class="container-fluid">
     <a class="navbar-brand" routerLink="/">BookApp</a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+    <button class="navbar-toggler"
+            type="button"
+            (click)="toggleNavbar()"
+            aria-controls="navbarNav"
+            [attr.aria-expanded]="!isCollapsed"
+            aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav me-auto">
+    <div [ngbCollapse]="isCollapsed" class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a routerLink="/books" class="nav-link">Böcker</a>
         </li>
@@ -14,10 +19,10 @@
         </li>
       </ul>
       <div class="d-flex align-items-center">
-        <button *ngIf="authService.getToken()" (click)="logout()" class="btn btn-outline-light btn-sm me-3">Logga ut</button>
-        <button *ngIf="!authService.getToken()" routerLink="/login" class="btn btn-outline-light btn-sm me-3">Logga in</button>
-        <button *ngIf="!authService.getToken()" routerLink="/register" class="btn btn-outline-light btn-sm me-3">Registrera</button>
-        <app-theme-toggle class="me-3"></app-theme-toggle>
+        <button *ngIf="authService?.getToken()" (click)="logout()" class="btn btn-outline-light btn-sm me-2">Logga ut</button>
+        <button *ngIf="!authService?.getToken()" routerLink="/login" class="btn btn-outline-light btn-sm me-2">Logga in</button>
+        <button *ngIf="!authService?.getToken()" routerLink="/register" class="btn btn-outline-light btn-sm me-2">Registrera</button>
+        <app-theme-toggle class="me-2"></app-theme-toggle>
       </div>
     </div>
   </div>

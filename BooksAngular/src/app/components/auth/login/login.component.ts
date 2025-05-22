@@ -25,9 +25,8 @@ export class LoginComponent {
   onSubmit(): void {
     const { username, password } = this.loginForm.value;
     const authRequest = { username, password };
-    this.authService.login(authRequest).subscribe({
-      next: () => this.router.navigate(['/books']),
-      error: err => this.errorMessage = 'Fel användarnamn eller lösenord'
+    this.authService.login(authRequest).subscribe(() => {
+      this.router.navigate(['/books']);
     });
   }
 }

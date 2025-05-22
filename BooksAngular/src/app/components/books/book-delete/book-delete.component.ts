@@ -23,8 +23,8 @@ export class BookDeleteComponent implements OnInit {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.bookService.deleteBook(+id).subscribe({
-        next: (deletedBook) => {
-          this.book = deletedBook;
+        next: () => {
+          this.book = undefined;
 
           setTimeout(() => {
             this.router.navigate(['/books']);

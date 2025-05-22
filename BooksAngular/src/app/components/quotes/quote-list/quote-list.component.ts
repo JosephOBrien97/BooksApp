@@ -3,7 +3,6 @@ import { QuoteService } from '../../../services/quote.service';
 import { CommonModule } from '@angular/common';
 import { Quote } from '../../../models/quote.model';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({

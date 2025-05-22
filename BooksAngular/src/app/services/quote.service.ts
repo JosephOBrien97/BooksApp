@@ -27,12 +27,12 @@ export class QuoteService {
     return this.http.post<Quote>(this.apiUrl, quote);
   }
 
-  updateQuote(quote: Quote): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${quote.id}`, quote);
+  updateQuote(quote: Quote): Observable<Quote> {
+    return this.http.put<Quote>(`${this.apiUrl}/${quote.id}`, quote);
   }
 
-  deleteQuote(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteQuote(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   private getHttpOptions() {

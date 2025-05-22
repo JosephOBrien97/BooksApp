@@ -111,7 +111,8 @@ public class BooksController : ControllerBase
 
         if (book == null) return NotFound();
 
-        if (book.UserId != int.Parse(userId)) return Forbid();
+        //Om bara skaparen får ta bort boken
+        //if (book.UserId != int.Parse(userId)) return Forbid();
 
         await _bookRepository.DeleteBookAsync(id);
 

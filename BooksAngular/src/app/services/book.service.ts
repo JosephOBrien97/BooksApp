@@ -27,12 +27,12 @@ export class BookService {
     return this.http.post<Book>(this.apiUrl, book);
   }
 
-  updateBook(book: Book): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${book.id}`, book);
+  updateBook(book: Book): Observable<Book> {
+    return this.http.put<Book>(`${this.apiUrl}/${book.id}`, book);
   }
 
-  deleteBook(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`);
+  deleteBook(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 
   private getHttpOptions() {
