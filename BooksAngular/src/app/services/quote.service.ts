@@ -9,7 +9,7 @@ import { environment } from '../../environments/environment';
   providedIn: 'root'
 })
 export class QuoteService {
-  private apiUrl = `${environment.apiUrl}/quote`;
+  private apiUrl = `${environment.apiUrl}/quotes`;
 
   constructor(
     private http: HttpClient,
