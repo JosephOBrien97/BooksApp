@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 
 builder.Services.AddControllers();
 
@@ -46,9 +46,9 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowAngularApp", policy =>
+    options.AddPolicy("name: MyAllowSpecificOrigins", policy =>
     {
-        policy.WithOrigins("https://682f0a23dd766b6151257a6c--booksapp-project.netlify.app/login?returnUrl=%2Fbooks")
+        policy.WithOrigins("https://booksapp-project.netlify.app")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
@@ -102,7 +102,7 @@ app.UseRouting();
 
 
 app.UseHttpsRedirection();
-app.UseCors("AllowAngularApp");
+app.UseCors("MyAllowSpecificOrigins");
 app.UseAuthentication();
 app.UseAuthorization();
 
