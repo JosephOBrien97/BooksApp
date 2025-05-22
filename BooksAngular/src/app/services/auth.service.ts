@@ -3,12 +3,15 @@ import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { AuthRequest, AuthResponse } from '../models/auth.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { environment } from '../../environments/environment';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = '/api/auth'; 
+  private apiUrl = `${environment.apiUrl}/auth`;
+
   private jwtHelper = new JwtHelperService();
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(this.hasValidToken());
 

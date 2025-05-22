@@ -3,12 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Book } from '../models/book.model';
 import { AuthService } from './auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class BookService {
-  private apiUrl = '/api/books';
+  private apiUrl = `${environment.apiUrl}/books`;
 
   constructor(
     private http: HttpClient,
@@ -34,7 +35,6 @@ export class BookService {
   deleteBook(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
-
   private getHttpOptions() {
     const token = this.authService.getToken();
     return {

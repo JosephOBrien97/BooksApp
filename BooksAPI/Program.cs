@@ -48,7 +48,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("http://localhost:4200", "https://localhost:4200")
+        policy.WithOrigins("https://682f0a23dd766b6151257a6c--booksapp-project.netlify.app/login?returnUrl=%2Fbooks")
             .AllowAnyHeader()
             .AllowAnyMethod()
             .AllowCredentials();
