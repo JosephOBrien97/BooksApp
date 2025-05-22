@@ -1,4 +1,4 @@
 export const environment = {
-  production: true,
+  production: false,
   apiUrl: 'https://booksapp-1v8m.onrender.com/api'
 };
