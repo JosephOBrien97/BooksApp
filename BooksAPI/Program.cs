@@ -10,7 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+var allowedOrigin = "https://booksapp-project.netlify.app";
 
 builder.Services.AddControllers();
 
@@ -46,14 +46,15 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("name: MyAllowSpecificOrigins", policy =>
+    options.AddPolicy("AllowFrontendApp", policy =>
     {
-        policy.WithOrigins("https://booksapp-project.netlify.app")
+        policy.WithOrigins(allowedOrigin)
             .AllowAnyHeader()
             .AllowAnyMethod()
-            .AllowCredentials();
+            .AllowCredentials(); // Optional, if using cookies or Authorization headers
     });
 });
+
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -102,7 +103,7 @@ app.UseRouting();
 
 
 app.UseHttpsRedirection();
-app.UseCors("MyAllowSpecificOrigins");
+app.UseCors("AllowFrontendApp");
 app.UseAuthentication();
 app.UseAuthorization();
 
